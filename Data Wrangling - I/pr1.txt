@@ -1,0 +1,40 @@
+import pandas as pd
+import numpy as np
+df = pd.read_csv("student_admission_record_dirty.csv")
+df
+To find Null Values
+df.isnull()
+df.head(10)
+df.isnull().sum()
+To find Non-Null Values
+df.notnull()
+df.notnull().sum()
+To get Dataset Information
+df.describe()
+df.columns
+df.size
+df.shape
+df.ndim
+df.info()
+to DROP NuLL Values
+df=df.dropna()
+df["Age"].replace(np.nan, 10, inplace=True)
+df
+df.isnull().sum()
+To Change Data Type
+df
+To replace Null Values by Mean
+Avg_percentage=df["High School Percentage"].astype('float').mean()
+Avg_percentage
+df["High School Percentage"].replace(np.nan,Avg_percentage,inplace=True)
+df.isnull().sum()
+To convert Categorial into Numerial Variabl
+df["Gender"].replace({'Female':0,'Male':1},inplace = True)
+df["Admission Status"].replace({'Rejected':0,'Accepted':1},inplace = True)
+df
+To count
+df["Gender"].value_counts()
+df["Age"].value_counts()
+Concept Hierachy
+df["Age"] = df["Age"].apply(fun1)
+df
