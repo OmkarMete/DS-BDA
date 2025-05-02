@@ -1,0 +1,210 @@
+Data Analytics II 1.Implement logistic regression using Python/R to
+perform classification on Social_Network_Ads.csv dataset.
+
+3.Compute Confusion matrix to find TP, FP, TN, FN, Accuracy, Error rate,
+Precision, Recall on the given dataset.
+
+Import libraries
+================
+
+.. code:: ipython3
+
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LogisticRegression
+    from mlxtend.plotting import plot_confusion_matrix
+    from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, precision_score, recall_score, f1_score
+    import warnings
+    warnings.filterwarnings('ignore')
+    %matplotlib inline
+
+
+::
+
+
+    ---------------------------------------------------------------------------
+
+    ModuleNotFoundError                       Traceback (most recent call last)
+
+    Cell In[1], line 8
+          6 from sklearn.model_selection import train_test_split
+          7 from sklearn.linear_model import LogisticRegression
+    ----> 8 from mlxtend.plotting import plot_confusion_matrix
+          9 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, precision_score, recall_score, f1_score
+         10 import warnings
+    
+
+    ModuleNotFoundError: No module named 'mlxtend'
+
+
+Load data
+=========
+
+.. code:: ipython3
+
+    df = pd.read_csv("Social_Network_Ads.csv")
+
+.. code:: ipython3
+
+    df
+
+Basic stats
+===========
+
+.. code:: ipython3
+
+    df.shape
+
+.. code:: ipython3
+
+    df.info()
+
+.. code:: ipython3
+
+    df.describe()
+
+.. code:: ipython3
+
+    df.isna().sum()
+
+.. code:: ipython3
+
+    histplot = sns.histplot(df['Age'], kde=True, bins=10, color='red', alpha=0.3)
+    for i in histplot.containers:
+        histplot.bar_label(i,)
+    plt.show()
+
+.. code:: ipython3
+
+    histplot = sns.histplot(df['EstimatedSalary'], kde=True, bins=10, color='red', alpha=0.3)
+    for i in histplot.containers:
+        histplot.bar_label(i,)
+    plt.show()
+
+.. code:: ipython3
+
+    df["Gender"].value_counts()
+
+.. code:: ipython3
+
+    def gender_encoder(value):
+        if (value == "Male"):
+            return 1
+        elif (value == "Female"):
+            return 0
+        else:
+            return -1
+
+.. code:: ipython3
+
+    df["Gender"] = df["Gender"].apply(gender_encoder)
+    df
+
+.. code:: ipython3
+
+    df["Purchased"].value_counts()
+
+.. code:: ipython3
+
+    sns.pairplot(df,hue='Purchased',palette='bwr')
+    plt.show()
+
+.. code:: ipython3
+
+    sns.heatmap(df.corr(), annot=True)
+    plt.show()
+
+Data preparation
+================
+
+.. code:: ipython3
+
+    x = df[["User ID","Gender","Age", "EstimatedSalary"]]
+    y = df["Purchased"]
+
+.. code:: ipython3
+
+    scaler = StandardScaler()
+    x = scaler.fit_transform(x)
+
+.. code:: ipython3
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+.. code:: ipython3
+
+    x_train.shape, x_test.shape, y_train.shape, y_test.shape
+
+Model building
+==============
+
+.. code:: ipython3
+
+    model = LogisticRegression()
+
+.. code:: ipython3
+
+    model.fit(x_train, y_train)
+
+.. code:: ipython3
+
+    y_pred = model.predict(x_test)
+    y_pred
+
+.. code:: ipython3
+
+    model.score(x_train,y_train)
+
+.. code:: ipython3
+
+    model.score(x,y)
+
+Evalutation
+===========
+
+.. code:: ipython3
+
+    cm = confusion_matrix(y_test, y_pred)
+    print(cm)
+
+.. code:: ipython3
+
+    #print(confusion_matrix._doc_)
+
+.. code:: ipython3
+
+    plot_confusion_matrix(conf_mat=cm, figsize=(5,5), show_normed=True)
+    plt.show()
+
+.. code:: ipython3
+
+    print(f"TN value is {cm[0][0]}")
+    print(f"FP value is {cm[0][1]}")
+    print(f"FN value is {cm[1][0]}")
+    print(f"TP value is {cm[1][1]}")
+
+.. code:: ipython3
+
+    print(f"Accuracy score is {accuracy_score(y_test, y_pred)}")
+
+.. code:: ipython3
+
+    print(f"Error rate is {1-accuracy_score(y_test, y_pred)}")
+
+.. code:: ipython3
+
+    print(f"Precision score is {precision_score(y_test, y_pred)}")
+
+.. code:: ipython3
+
+    print(f"Recall score is {recall_score(y_test, y_pred)}")
+
+.. code:: ipython3
+
+    print(classification_report(y_test, y_pred))
+
+
