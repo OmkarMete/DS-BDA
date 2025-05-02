@@ -1,0 +1,193 @@
+Data Analytics I :
+1.Create a Linear Regression Model using Python/R to predict home prices using Boston Housing
+Dataset (https://www.kaggle.com/c/boston-housing). The Boston Housing dataset contains
+information about various houses in Boston through different parameters. There are 506 samples
+and 14 feature variables in this dataset.
+The objective is to predict the value of prices of the house using the given features.
+
+.. code:: ipython3
+
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LinearRegression
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.metrics import mean_squared_error
+    from sklearn.metrics import mean_absolute_error
+    import seaborn as sns
+    import warnings
+    warnings.filterwarnings("ignore")
+    %matplotlib inline
+
+.. code:: ipython3
+
+    df = pd.read_csv("BostonHousing.csv")
+    df = df.dropna()
+    df.head(
+
+
+::
+
+
+      Cell In[2], line 3
+        df.head(
+                ^
+    _IncompleteInputError: incomplete input
+    
+
+
+.. code:: ipython3
+
+    df.columns
+
+.. code:: ipython3
+
+    x = df[['crim', 'zn', 'indus', 'chas', 'nox', 'rm', 'age', 'dis', 'rad', 'tax',
+           'ptratio', 'b', 'lstat']]
+    x.head()
+
+.. code:: ipython3
+
+    y = df[['medv']]
+    y.head()
+
+.. code:: ipython3
+
+    x.shape,y.shape
+
+\************************\* Basic stats
+\*****************************************\*
+
+.. code:: ipython3
+
+    x.info()
+
+.. code:: ipython3
+
+    x.describe()
+
+.. code:: ipython3
+
+    y.info()
+
+.. code:: ipython3
+
+    y.describe()
+
+.. code:: ipython3
+
+    x.isnull().sum()
+
+.. code:: ipython3
+
+    y.isnull().sum()
+
+.. code:: ipython3
+
+    df = x 
+    df["target"] = y
+    df.head()
+
+.. code:: ipython3
+
+    plt.figure(figsize=(15,10))
+    sns.heatmap(df.corr(), annot=True)
+    plt.show()
+
+\****\* Considering only ‘RM’ and ‘LSTAT’ by considering correlation and
+multi-collinearity of other features \****\*
+
+.. code:: ipython3
+
+    df = df[['rm', 'lstat', 'target']]
+
+.. code:: ipython3
+
+    sns.pairplot(df)
+    plt.show()
+
+.. code:: ipython3
+
+    x = df[['rm', 'lstat']]
+    y = df['target']
+
+\****************\* Scale the data \**************************\*
+
+.. code:: ipython3
+
+    scaler = StandardScaler()
+
+.. code:: ipython3
+
+    x = scaler.fit_transform(x)
+
+\********************\* Split the data \***********************\*
+
+.. code:: ipython3
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, shuffle=True)
+
+.. code:: ipython3
+
+    x_train.shape, x_test.shape, y_train.shape, y_test.shape
+
+\******************\* Linear Regression Modelling¶ \******************\*
+
+.. code:: ipython3
+
+    model = LinearRegression(n_jobs=-1)
+
+.. code:: ipython3
+
+    model.fit(x_train, y_train)
+
+Linear Regression:
+
+Linear Regression is one of the most fundamental and widely known
+Machine Learning Algorithm. A Linear Regression model predicts the
+dependent variable using a regression line based on the independent
+variables. The equation of the Linear Regression is:
+
+Y = a*X + C + e
+
+Where, C is the intercept, m is the slope of the line e is the error
+term The equation above is used to predict the value of the targer
+variable based on the given predictor variable(s).
+
+\*********************************\* Make predictions
+\**********************\*
+
+.. code:: ipython3
+
+    y_pred = model.predict(x_test)
+
+.. code:: ipython3
+
+    y_pred
+
+.. code:: ipython3
+
+    mean_squared_error(y_test, y_pred)
+
+.. code:: ipython3
+
+    mean_absolute_error(y_test, y_pred)
+
+.. code:: ipython3
+
+    plt.scatter(y_test, y_pred)
+    plt.xlabel('Y Test')
+    plt.ylabel('Predicted Y')
+    plt.show()
+
+.. code:: ipython3
+
+    df1 = pd.DataFrame({'Actual':y_test, 'Predicted':y_pred, 'Variance':y_test-y_pred})
+    df1.head()
+
+.. code:: ipython3
+
+    df.head(15)
+
+
