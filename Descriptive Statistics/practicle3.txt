@@ -1,0 +1,149 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings 
+warnings.filterwarnings("ignore")
+%matplotlib inline
+
+
+df = pd.read_csv("loan_data_set.csv")
+
+df.head()
+
+Basic stats
+
+df.shape
+
+df.info()
+
+df.describe()
+
+df.isna().sum()
+
+Let us group the quantitative variables 'ApplicantIncome', 'Coapplicant Income', 'LoanAmount', 'Loan_Amount_Term', 'Credit_History' by 'Loan_Status' categorical variable
+
+df["ApplicantIncome"].plot(kind="hist")
+plt.show()
+
+df["ApplicantIncome"].fillna(df["ApplicantIncome"].mean(), inplace=True)
+df
+
+
+df["CoapplicantIncome"].plot(kind="hist")
+plt.show()
+
+df["CoapplicantIncome"].fillna(df["CoapplicantIncome"].mean(), inplace=True)
+df
+
+df["LoanAmount"].plot(kind="hist")
+plt.show()
+
+df["LoanAmount"].fillna(df["LoanAmount"].mean(), inplace=True)
+
+df["Credit_History"].plot(kind="hist")
+plt.show()
+
+df["Credit_History"].fillna(np.random.randint(0,2), inplace=True)
+df
+
+grouped_df = df[["ApplicantIncome", "CoapplicantIncome", "LoanAmount", "Credit_History"]].groupby(df["Loan_Status"])
+
+Stats of the grouped data
+
+mean = grouped_df.mean()
+mean
+
+median = grouped_df.median()
+median
+
+min = grouped_df.min()
+min
+
+max = grouped_df.max()
+max
+
+std = grouped_df.std()
+std
+
+Iris dataset
+
+data = pd.read_csv("Iris.csv")
+data.keys()
+
+data.shape
+
+
+data.info()
+
+data.mean(numeric_only=True)
+
+data.mode()
+
+data.head()
+
+Basic stats
+
+data["SepalLengthCm"].describe()
+
+data.groupby("Species").describe()
+
+data.groupby("Species").describe().sum()
+
+data.groupby(["Species"])["SepalLengthCm"].mean()
+
+
+data.info()
+
+data['Species'].value_counts()
+
+data.Species.mode()
+
+import seaborn as sns
+sns.set_style("whitegrid")
+sns.FacetGrid(data, hue="Species", height=7).map(plt.scatter, "SepalLengthCm","SepalWidthCm")
+plt.show()
+
+# Filter the data for the species 'iris-setosa' and 'iris-versicolor'
+setosa_data = data[data['Species'] == 'Iris-setosa']
+versicolor_data = data[data['Species'] == 'Iris-versicolor']
+virginica_data = data[data['Species'] == 'Iris-virginica']
+
+
+setosa_data
+
+versicolor_data 
+
+
+virginica_data
+
+
+# Calculate some basic statistical details for each species
+setosa_stats = {
+'percentile': np.percentile(setosa_data['SepalLengthCm'],
+50), 'mean': np.mean(setosa_data['SepalLengthCm']),
+'std_dev': np.std(setosa_data['SepalLengthCm'])
+}
+
+versicolor_stats = {
+'percentile': np.percentile(versicolor_data['SepalLengthCm'],
+50), 'mean': np.mean(versicolor_data['SepalLengthCm']),
+'std_dev': np.std(versicolor_data['SepalLengthCm'])
+}
+
+virginica_stats = {
+'percentile': np.percentile(virginica_data['SepalLengthCm'],
+50), 'mean': np.mean(virginica_data['SepalLengthCm']),
+'std_dev': np.std(virginica_data['SepalLengthCm'])
+}
+
+
+# Print the results
+print('Statistics for Iris Setosa:')
+print(setosa_stats)
+print('')
+print('Statistics for Iris Versicolor:') 
+print(versicolor_stats)
+print('')
+print('Statistics for Iris Virginica:') 
+print(virginica_stats)
