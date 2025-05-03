@@ -1,0 +1,111 @@
+.. code:: ipython3
+
+     import	pandas	as	pd
+     import	numpy	as	np
+     import	matplotlib.pyplot	as	plt
+     import	seaborn	as	sns
+     import	plotly.express	as	px
+     from	sklearn.datasets	import	load_iris
+     import	warnings
+     warnings.filterwarnings("ignore")
+
+.. code:: ipython3
+
+    data	=	load_iris()
+
+.. code:: ipython3
+
+     print("Features	and	their	types:")
+     print(data.keys())
+
+.. code:: ipython3
+
+    data.feature_names
+
+.. code:: ipython3
+
+     df	=	pd.DataFrame()
+     df[data['feature_names']]	=	data['data']
+     df['label']	=	data['target']
+     df
+
+.. code:: ipython3
+
+    df.head()
+
+.. code:: ipython3
+
+    df.info()
+
+.. code:: ipython3
+
+    df.describe()
+
+Visualization
+=============
+
+.. code:: ipython3
+
+    sns.heatmap(df.corr(),	annot=True)
+    plt.show()
+
+.. code:: ipython3
+
+    df.rename(columns={"sepal\tlength\t(cm)": "sepal length (cm)"}, inplace=True)
+    sns.histplot(df["sepal length (cm)"], kde=True)
+    plt.show()
+    
+
+.. code:: ipython3
+
+    df.rename(columns={"sepal\tlength\t(cm)": "sepal length (cm)"}, inplace=True)
+    sns.histplot(df["sepal length (cm)"], kde=True)
+    plt.show()
+    
+
+.. code:: ipython3
+
+    df.rename(columns={"sepal\twidth\t(cm)": "sepal width (cm)"}, inplace=True)
+    sns.histplot(df["sepal width (cm)"], kde=True)
+    plt.show()
+    
+
+.. code:: ipython3
+
+    df.rename(columns={"petal\tlength\t(cm)": "petal length (cm)"}, inplace=True)
+    sns.histplot(df["petal length (cm)"], kde=True)
+    plt.show()
+    
+
+.. code:: ipython3
+
+    df.rename(columns={"petal\twidth\t(cm)": "petal width (cm)"}, inplace=True)
+    sns.histplot(df["petal width (cm)"], kde=True)
+    plt.show()
+    
+
+.. code:: ipython3
+
+    df.rename(columns={"sepal\tlength\t(cm)": "sepal length (cm)"}, inplace=True)
+    sns.boxplot(x=df['label'], y=df["sepal length (cm)"])
+    plt.title("Sepal Length by Label")
+    plt.show()
+    
+    
+
+.. code:: ipython3
+
+    df.rename(columns={"sepal\twidth\t(cm)": "sepal width (cm)"}, inplace=True)
+    sns.boxplot(x=df['label'], y=df["sepal width (cm)"])
+    plt.title("Sepal Width by Label")
+    plt.show()
+    
+
+.. code:: ipython3
+
+    df.rename(columns={"petal\twidth\t(cm)": "petal width (cm)"}, inplace=True)
+    sns.boxplot(x=df['label'], y=df["petal width (cm)"])
+    plt.title("Petal Width by Label")
+    plt.show()
+    
+
