@@ -1,0 +1,97 @@
+.. code:: ipython3
+
+     import	pandas	as	pd
+     import	numpy	as	np
+     import	matplotlib.pyplot	as	plt
+     import	seaborn	as	sns
+     import	plotly.express	as	px
+     import	warnings
+     warnings.filterwarnings("ignore")
+     %matplotlib inline
+
+Load data and basic stats
+=========================
+
+.. code:: ipython3
+
+    df	=	pd.read_csv("train.csv")
+
+.. code:: ipython3
+
+    df.shape
+    
+
+.. code:: ipython3
+
+    df
+
+.. code:: ipython3
+
+    df.info()
+
+.. code:: ipython3
+
+    df.describe()
+
+.. code:: ipython3
+
+    df.isna().sum()
+
+.. code:: ipython3
+
+    df["Age"]	=	df["Age"].fillna(df["Age"].mean())
+
+.. code:: ipython3
+
+    df.isna().sum()
+    
+
+Visualization
+=============
+
+.. code:: ipython3
+
+     def fun1(value):
+    	if (value	==	"male"):
+    		return	1
+    	else:
+    		return	0
+
+.. code:: ipython3
+
+    def	fun2(value):
+    				if	(value	==	'S'):
+    								return	0
+    				elif	(value	==	'C'):
+    								return	1
+    				elif	(value	==	'Q'):
+    								return	2
+    				else:
+    								return	0
+
+.. code:: ipython3
+
+     df["Sex"]	=	df["Sex"].apply(fun1)
+
+.. code:: ipython3
+
+     df["Embarked"]	=	df["Embarked"].apply(fun2)
+
+.. code:: ipython3
+
+    df	=	df.drop("Cabin",	axis=1)
+
+.. code:: ipython3
+
+    df.shape
+
+.. code:: ipython3
+
+     px.box(df["Sex"],	df["Age"],	color=df["Survived"])
+
+.. code:: ipython3
+
+    plt.figure(figsize=(10,7))
+    box	= sns.boxplot(df,x="Sex",	y="Age",	hue="Survived")
+    plt.show()
+
