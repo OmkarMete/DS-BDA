@@ -1,0 +1,157 @@
+.. code:: ipython3
+
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import plotly.express as px
+    import warnings
+    warnings.filterwarnings("ignore")
+    %matplotlib inline
+
+.. code:: ipython3
+
+    df = pd.read_csv("train.csv")
+
+.. code:: ipython3
+
+    df.shape
+
+.. code:: ipython3
+
+    df
+    
+
+.. code:: ipython3
+
+    df.info()
+
+.. code:: ipython3
+
+    df.columns
+
+.. code:: ipython3
+
+     df.describe()
+
+
+.. code:: ipython3
+
+    df.isna().sum()
+
+.. code:: ipython3
+
+    df["Age"]	=	df["Age"].fillna(df["Age"].mean())
+
+.. code:: ipython3
+
+     df.isna().sum()
+
+.. code:: ipython3
+
+    df["Name"]
+
+.. code:: ipython3
+
+    df["Sex"].value_counts()
+
+.. code:: ipython3
+
+    df["Ticket"].value_counts()
+
+.. code:: ipython3
+
+     df["Cabin"].value_counts()
+
+.. code:: ipython3
+
+     df["Embarked"].value_counts()
+
+.. code:: ipython3
+
+     def	fun1(value):
+         if	(value	==	"male"):
+             return	1
+         else:
+             return	0
+
+.. code:: ipython3
+
+     def	fun2(value):
+         if	(value	==	'S'):
+             return	0
+         elif	(value	==	'C'):
+             return	1
+         elif	(value	==	'Q'):
+             return	2
+         else:
+             return	0
+
+.. code:: ipython3
+
+     df["Sex"]	=	df["Sex"].apply(fun1)
+
+.. code:: ipython3
+
+    df["Embarked"]	=	df["Embarked"].apply(fun2)
+
+.. code:: ipython3
+
+     df.isna().sum()
+
+.. code:: ipython3
+
+    df	=	df.drop("Cabin",	axis=1)
+
+.. code:: ipython3
+
+    df.shape
+
+.. code:: ipython3
+
+    df.shape
+
+.. code:: ipython3
+
+     fig,	axes	=	plt.subplots(1,	3,	figsize=(18,	6))
+    #	Age	Distribution
+     sns.histplot(data=df,	x='Age',	kde=True,	ax=axes[0])
+     axes[0].set_title('Age	Distribution')
+     #	SibSp	Distribution
+     sns.histplot(data=df,	x='SibSp',	kde=True,	ax=axes[1])
+     axes[1].set_title('SibSp	Distribution')
+     #	Parch	Distribution
+     sns.histplot(data=df,	x='Parch',	kde=True,	ax=axes[2])
+     axes[2].set_title('Parch	Distribution')
+     #plt.tight_layout()
+     #plt.show()
+     #	Fare	Distribution
+     plt.figure(figsize=(10,	6))
+     sns.histplot(data=df,	x='Fare',	kde=True)
+     plt.title('Fare	Distribution')
+     plt.show()
+
+.. code:: ipython3
+
+    df.info()
+
+.. code:: ipython3
+
+     sns.countplot(df,	x="Survived")
+     plt.show()
+
+.. code:: ipython3
+
+     sns.countplot(df,x="Pclass",	hue="Survived",palette="Accent")
+     plt.show()
+
+.. code:: ipython3
+
+     sns.countplot(df,x="Embarked",hue="Survived")
+     plt.show()
+
+.. code:: ipython3
+
+    sns.histplot(df["Fare"])
+    plt.show()
+
