@@ -1,0 +1,28 @@
+1) Even or Odd
+object EvenOdd {
+  def main(args: Array[String]): Unit = {
+    val num = 7
+    if (num % 2 == 0)
+      println(s"$num is Even")
+    else
+      println(s"$num is Odd")
+  }
+}
+
+2) Prime No Check
+
+object PrimeCheck {
+  def main(args: Array[String]): Unit = {
+    val num = 29
+    var isPrime = true
+    for (i <- 2 until num) {
+      if (num % i == 0) {
+        isPrime = false
+      }
+    }
+    if (isPrime)
+      println(s"$num is a Prime Number")
+    else
+      println(s"$num is Not a Prime Number")
+  }
+}
