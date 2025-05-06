@@ -1,0 +1,26 @@
+# Step 1: Update and install Java
+sudo apt update
+sudo apt install default-jdk -y
+
+# Step 2: Install Scala (optional but recommended)
+sudo apt install scala -y
+
+# Step 3: Install Python and pip (for PySpark)
+sudo apt install python3 python3-pip -y
+
+# Step 4: Download Spark
+wget https://downloads.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
+
+# Step 5: Extract Spark
+tar xvf spark-3.5.0-bin-hadoop3.tgz
+
+# Step 6: Move Spark to /opt directory
+sudo mv spark-3.5.0-bin-hadoop3 /opt/spark
+
+# Step 7: Set environment variables
+echo 'export SPARK_HOME=/opt/spark' >> ~/.bashrc
+echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> ~/.bashrc
+source ~/.bashrc
+
+# Step 8: Verify installation
+spark-shell
